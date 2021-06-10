@@ -1,0 +1,47 @@
+﻿@model IEnumerable<leave_management.Models.LeaveTypeVM>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Leave Types</h1>
+<hr/>
+<p>
+    <a asp-action="Create" class="btn btn-success"><i class="fas fa-plus"></i> Create New</a>
+</p>
+<table id="tableData" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id">
+                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                </a> 
+                <a asp-action="Details" class="btn btn-info" asp-route-id="@item.Id">
+                    <i class="fas fa-info-circle" aria-hidden="true"></i>
+                </a> 
+                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete?')">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

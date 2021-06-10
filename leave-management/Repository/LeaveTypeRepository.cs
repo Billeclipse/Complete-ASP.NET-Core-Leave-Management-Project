@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using leave_management.Contracts;
 using leave_management.Data;
@@ -28,6 +29,12 @@ namespace leave_management.Repository
             var leaveType = _db.LeaveTypes.Find(id);
             //_db.LeaveTypes.FirstOrDefault(lamda expression); //another example
             return leaveType;
+        }
+
+        public bool isExists(int id)
+        {
+            var exists = _db.LeaveTypes.Any(q => q.Id == id);
+            return exists;
         }
 
         public bool Create(LeaveType entity)
