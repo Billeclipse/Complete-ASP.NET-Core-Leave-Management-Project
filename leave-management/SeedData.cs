@@ -23,7 +23,9 @@ namespace leave_management
                 var user = new Employee()
                 {
                     UserName = "admin@localhost.com",
-                    Email = "admin@localhost.com"
+                    Email = "admin@localhost.com",
+                    Firstname = "Admin",
+                    Lastname = "Adminopoulos"
                 };
                 var result = userManager.CreateAsync(user, "P@ssword1").Result;
                 if (result.Succeeded)

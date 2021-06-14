@@ -32,7 +32,6 @@ namespace leave_management.Repository
                 .Include(q => q.LeaveType)
                 .Include(q => q.Employee)
                 .FirstOrDefault(q => q.Id == id);
-            //_db.LeaveAllocations.FirstOrDefault(lamda expression); //another example
             return leaveAllocation;
         }
 
@@ -70,16 +69,22 @@ namespace leave_management.Repository
         {
             var period = DateTime.Now.Year;
             return FindAll()
-                .Where(q => q.EmployeeId == employeeId && q.LeaveTypeId == leaveTypeId && q.Period == period)
-                .Any();
+                .Any(q => q.EmployeeId == employeeId && q.LeaveTypeId == leaveTypeId && q.Period == period);
         }
 
-        public ICollection<LeaveAllocation> GetLeaveAllocationsByEmployee(string id)
+        public ICollection<LeaveAllocation> GetLeaveAllocationsByEmployee(string employeeId)
         {
             var period = DateTime.Now.Year;
             return FindAll()
-                .Where(q => q.EmployeeId == id && q.Period == period)
+                .Where(q => q.EmployeeId == employeeId && q.Period == period)
                 .ToList();
+        }
+
+        public LeaveAllocation GetLeaveAllocationsByEmployeeAndType(string employeeId, int leaveTypeId)
+        {
+            var period = DateTime.Now.Year;
+            return FindAll()
+                .FirstOrDefault(q => q.EmployeeId == employeeId && q.Period == period && q.LeaveTypeId == leaveTypeId);
         }
     }
 }
