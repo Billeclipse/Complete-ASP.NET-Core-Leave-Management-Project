@@ -50,6 +50,17 @@
             <!-- /.info-box-content -->
         </div>
     </div>
+    <div class="col-lg-12 col-md-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-secondary"><i class="far fa-times-circle"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">@Model.CancelledRequests</span>
+                <span class="info-box-number">@Html.DisplayNameFor(model => model.CancelledRequests)</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+    </div>
 </div>
 
 <br/>
@@ -103,7 +114,11 @@
                 @Html.DisplayFor(modelItem => item.DateRequested)
             </td>
             <td>
-                @if (item.Approved == true)
+                @if (item.Cancelled)
+                {
+                    <span class="badge badge-secondary">Cancelled</span>
+                }
+                else if (item.Approved == true)
                 {
                     <span class="badge badge-success">Approved</span>
                 }
@@ -111,7 +126,7 @@
                 {
                     <span class="badge badge-danger">Rejected</span>
                 }
-                else
+                else if(item.Approved == null)
                 {
                     <span class="badge badge-warning">Pending Approval</span>
                 }
