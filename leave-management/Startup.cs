@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using leave_management.Contracts;
 using leave_management.Mappings;
 using leave_management.Repository;
+using leave_management.Services;
 
 namespace leave_management
 {
@@ -37,6 +38,10 @@ namespace leave_management
             //Add references for Repository and Contracts to Startup file
             
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            //EmailSettings Section
+            services.Configure<EmailSettings>(Configuration.GetSection("EmailSettings"));
+            services.AddSingleton<IEmailSender, EmailSender>();
 
             services.AddAutoMapper(typeof(Maps));
 
