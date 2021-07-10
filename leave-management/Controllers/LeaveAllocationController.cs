@@ -10,8 +10,6 @@ using leave_management.Data;
 using leave_management.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Differencing;
 using Microsoft.EntityFrameworkCore;
 
 namespace leave_management.Controllers
@@ -88,7 +86,7 @@ namespace leave_management.Controllers
             
             var leaveAllocations = await _unitOfWork.LeaveAllocations.FindAll(
                 q=>q.EmployeeId == id,
-                includes: new List<string>{ "LeaveType" }
+                includes: q => q.Include(x => x.LeaveType)
             );
             var leaveAllocationsVm = _mapper.Map<List<LeaveAllocationVM>>(leaveAllocations);
             
@@ -124,8 +122,8 @@ namespace leave_management.Controllers
         // GET: LeaveAllocationController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            var leaveAllocation = await _unitOfWork.LeaveAllocations.Find(q=>q.Id == id,
-                includes: new List<string>{ "Employee", "LeaveType" });
+            var leaveAllocation = await _unitOfWork.LeaveAllocations.Find(q => q.Id == id,
+                includes: q => q.Include(x => x.Employee).Include(x => x.LeaveType));
             var model = _mapper.Map<EditLeaveAllocationVM>(leaveAllocation);
             return View(model);
         }
@@ -143,7 +141,7 @@ namespace leave_management.Controllers
                 }
 
                 var record = await _unitOfWork.LeaveAllocations.Find(q=> q.Id == model.Id,
-                    includes: new List<string> { "Employee", "LeaveType" });
+                    includes: q => q.Include(x => x.Employee).Include(x => x.LeaveType));
                 record.NumberOfDays = model.NumberOfDays;
 
                 _unitOfWork.LeaveAllocations.Update(record);
